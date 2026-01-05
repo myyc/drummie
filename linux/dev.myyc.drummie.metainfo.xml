@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.myyc.drummie</id>
+  <name>Drummie</name>
+  <summary>16-step drum machine with live pads and effects</summary>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>
+      Drummie is a drum machine featuring a 16-step sequencer, live trigger pads,
+      and real-time effects including delay, reverb, and pitch control.
+    </p>
+  </description>
+  <launchable type="desktop-id">dev.myyc.drummie.desktop</launchable>
+  <url type="homepage">https://github.com/myyc/drummie</url>
+  <provides>
+    <binary>drummie</binary>
+  </provides>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Music</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+</component>

@@ -1,4 +1,4 @@
-name: Build macOS
+name: Build
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-macos:
+    name: Build macOS
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,3 +28,44 @@ jobs:
         with:
           name: drummie-macos
           path: build/macos/Build/Products/Release/drummie.app
+
+  build-linux:
+    name: Build Linux (Flatpak)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev liblzma-dev libstdc++-12-dev \
+            libasound2-dev libpulse-dev \
+            flatpak flatpak-builder
+
+      - name: Setup Flatpak
+        run: |
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak install --user -y flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Linux
+        run: flutter build linux --release
+
+      - name: Build Flatpak
+        run: |
+          flatpak-builder --force-clean --repo=repo build-dir dev.myyc.drummie.yaml
+          flatpak build-bundle repo drummie.flatpak dev.myyc.drummie
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummie-linux-flatpak
+          path: drummie.flatpak

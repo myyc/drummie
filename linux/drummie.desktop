@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Drummie
+Comment=16-step drum machine with live pads and effects
+Exec=drummie
+Icon=dev.myyc.drummie
+Terminal=false
+Categories=AudioVideo;Audio;Music;Sequencer;
+StartupWMClass=drummie
